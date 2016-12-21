@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+
+#ROS dependencies
+import rospy
+from std_msgs.msg import String
+import svgwrite
+import cairo
+import rsvg
+import textwrap
+
+from svgwrite import cm, mm
+
+import math
+
+
+def callback(data):
+    type_marker = data.data
+
+    if type_marker == 'ARUCO':
+        w, h = 30,20
+	svg_document = svgwrite.Drawing(filename = "test-svgwrite.svg",
+		                    size = (w*cm, h*cm)
+		                    #size = ("800px", "600px")
+		                    )
+
+	w_rect, h_rect = 10,10
+	svg_document.add(svg_document.rect(insert = (0, 0),
+		                       size = (w_rect*cm, h_rect*cm),
+		                       #size = ("283px", "283px"),
+		                       stroke_width = "1",
+		                       stroke = "black",
+		                       fill = "rgb(255,34,0)"))
+
+
+	#print(svg_document.tostring())
+
+
+	svg_document.save()
+
+	wx=int(round((w*90)/2.54))
+	hx=int(round((h*90)/2.54))
+	img = cairo.ImageSurface(cairo.FORMAT_ARGB32, wx,hx)
+
+	ctx = cairo.Context(img)
+
+	handle = rsvg.Handle('test-svgwrite.svg')
+
+	handle.render_cairo(ctx)
+
+	img.write_to_png("static/svg.png")
+
+    else:
+        w, h = 30,60
+        w, h = 30,20
+	svg_document = svgwrite.Drawing(filename = "test-svgwrite.svg",
+		                    size = (w*cm, h*cm)
+		                    #size = ("800px", "600px")
+		                    )
+
+	w_rect, h_rect = 10,10
+	svg_document.add(svg_document.rect(insert = (0, 0),
+		                       size = (w_rect*cm, h_rect*cm),
+		                       #size = ("283px", "283px"),
+		                       stroke_width = "1",
+		                       stroke = "black",
+		                       fill = "rgb(255,34,0)"))
+
+
+	#print(svg_document.tostring())
+
+
+	svg_document.save()
+
+	wx=int(round((w*90)/2.54))
+	hx=int(round((h*90)/2.54))
+	img = cairo.ImageSurface(cairo.FORMAT_ARGB32, wx,hx)
+
+	ctx = cairo.Context(img)
+
+	handle = rsvg.Handle('test-svgwrite.svg')
+
+	handle.render_cairo(ctx)
+
+	img.write_to_png("static/svg.png")
+
+
+def listener():
+
+    # In ROS, nodes are uniquely named. If two nodes with the same
+    # node are launched, the previous one is kicked off. The
+    # anonymous=True flag means that rospy will choose a unique
+    # name for our 'listener' node so that multiple listeners can
+    # run simultaneously.
+    rospy.init_node('listener', anonymous=True)
+
+    rospy.Subscriber("/decision_process/type_sensor", String, callback)
+
+    # spin() simply keeps python from exiting until this node is stopped
+    rospy.spin()
+
+
+
+if __name__ == '__main__':
+    listener()

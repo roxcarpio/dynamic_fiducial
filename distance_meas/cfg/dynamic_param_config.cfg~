@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+PACKAGE = "distance_meas"
+
+from dynamic_reconfigure.parameter_generator_catkin import *
+
+gen = ParameterGenerator()
+
+
+#################################################################
+
+gen.add("Distance",		double_t, 	0, "distance camera-marker in cm",  30, 0, 400) #min=0 , max=400cm
+gen.add("Distance_Offset",	double_t, 	0, "Distance increment", 3,  0, 15)
+gen.add("Random_generator",   	bool_t,   	1, "Select random mode",  False)
+
+option_enum = gen.enum([ gen.const("Normal_mode",    int_t, 0, "Start Normal mode"),
+			 gen.const("Init_mode",      int_t, 1, "Start Initialization mode")],
+		       "Select working mode")
+gen.add("Working_mode", int_t, 0, "Select working mode", 0, 0, 1, edit_method=option_enum)
+
+gen.add("NormalMode_Rate",    		double_t,    	0, "send data Rate ", 0.5,  0, 20)
+
+gen.add("Init_iterations",    		int_t,    	0, "send data Rate ", 5,  1, 10)
+gen.add("Init_rate",    		int_t,    	0, "send data Rate ", 4,  1, 10)
+
+decision_mode_enum = gen.enum([ gen.const("ONOFF_mode",         	int_t, 0, "ONOFF mode"),
+			 gen.const("Hysteresis_static",      int_t, 1, "hysteresis mode 1"),
+			 gen.const("Hysteresis_dynamic_duration",      int_t, 2, "hysteresis mode 2"),
+			 gen.const("Hysteresis_incremental_range",      int_t, 3, "hysteresis mode 3"),
+			 gen.const("Hysteresis_adaptative",      int_t, 4, "hysteresis mode 4")],
+		       	 "Select decision process working mode")
+gen.add("Decision_mode", int_t, 0, "Select working mode", 1, 0, 4, edit_method=decision_mode_enum)
+
+exit(gen.generate(PACKAGE, "distance_meas", "dynamic_param_config"))

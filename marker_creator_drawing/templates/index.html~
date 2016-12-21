@@ -1,0 +1,28 @@
+<!-- <html>
+<head>
+    <title>My first Python website</title>
+    <meta http-equiv="refresh" content="100">
+    <script type="text/javascript">
+    target=document.getElementById('enter');
+    target.style.width=((10*0.00874)/2.54+'px';
+    target.style.height=((283*screen.height)/800)+'px';
+    </script>
+</head>
+<body>
+    <!-- <img src={{ url_for('static', filename = 'svg.png') }} alt="previous" width="450px" height="450px" title="Previous" border="0">
+    <h1>{{salutation}}</h1>
+    <img id="enter" src="static/svg.png" alt="enter" />
+</body>
+</html> -->
+
+ <html>
+<head>
+    <title>My first Python website</title>
+    <meta http-equiv="refresh" content="0.5">
+
+    </script>
+</head>
+<body>
+     <img src={{ url_for('static', filename = 'svg.png') }} alt="previous" width="1063px" height="2126px" title="Previous" border="0">
+</body>
+</html>

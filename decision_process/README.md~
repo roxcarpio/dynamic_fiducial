@@ -1,0 +1,29 @@
+# dynamic_fiducials
+## Introduction
+_Work in progress..._
+
+* Authors: [Rosa Maria Carpio Lopez](rocarlo91@gmail.com), [ETIT TU-Darmstadt](http://www.etit.tu-darmstadt.de/fachbereich/)
+
+
+## Dependencies
+The software needed is ROS Indigo and the following packages:
+
+* ar_sys
+* _more packages in progress..._
+
+The dependencies of those individual packages are not written here, and should be installed using "rosdep install" o downloaded in the workspace after checking them with "rosdep check"
+
+## Hardware
+The minimum devices needed to use the dynamic_fiducials package are:
+
+* Computer with Ubuntu 14.04 and ROS Indigo
+* External or internal camera for the computer
+* Ipad 2, Resolution: 1024x768, Dimensions: 24.1cm x 18.6cm x 0.86cm
+
+## Usage
+
+_Work in progress..._
+
+## Parameters
+
+_Work in progress..._

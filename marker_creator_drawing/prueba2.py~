@@ -1,0 +1,40 @@
+import rospy
+import svgwrite
+import cairo
+import rsvg
+import textwrap
+
+from svgwrite import cm, mm
+
+
+w, h = 30,20
+svg_document = svgwrite.Drawing(filename = "test-svgwrite.svg",
+                            size = (w*cm, h*cm)
+                            #size = ("800px", "600px")
+                            )
+
+w_rect, h_rect = 10,10
+svg_document.add(svg_document.rect(insert = (0, 0),
+                               size = (w_rect*cm, h_rect*cm),
+                               #size = ("283px", "283px"),
+                               stroke_width = "1",
+                               stroke = "black",
+                               fill = "rgb(255,34,0)"))
+
+
+#print(svg_document.tostring())
+
+
+svg_document.save()
+
+wx=int(round((w*90)/2.54))
+hx=int(round((h*90)/2.54))
+img = cairo.ImageSurface(cairo.FORMAT_ARGB32, wx,hx)
+
+ctx = cairo.Context(img)
+
+handle = rsvg.Handle('test-svgwrite.svg')
+
+handle.render_cairo(ctx)
+
+img.write_to_png("static/svg.png")

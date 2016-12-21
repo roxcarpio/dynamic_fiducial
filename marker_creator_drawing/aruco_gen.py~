@@ -1,0 +1,65 @@
+#!/usr/bin/env python#!/usr/bin/env python
+
+import svgwrite
+import os
+from svgwrite import cm, mm
+import sys
+import cairosvg
+import cairo
+import rsvg
+import textwrap
+import math
+
+##################### TO BE MODIFIED #################
+
+
+######################################################
+
+output_file = 'aruco_marker'
+
+def aruco_drawer(arg):
+
+    marker_size = arg
+
+    file_name = os.path.splitext(output_file)[0]
+
+    w, h = '100%', '100%'
+    dwg = svgwrite.Drawing(filename=file_name+'.svg', size=(w, h), debug=True)
+    dwg.add(dwg.rect(insert=(0,0), size=(w, h), fill='white', stroke='none'))
+
+    #center of the marker
+    cx = cy = marker_size/2
+
+    #Squares for marker size reference
+    corner_square = marker_size/7
+    size_inner_square =corner_square*5
+    size_id_square_x =corner_square*1
+    size_id_square_y =corner_square*5
+
+    #We create a group for the whole marker
+    marker = dwg.defs.add(dwg.g(id='marker'))
+
+    #Outer square
+    marker.add(svgwrite.shapes.Rect((0*cm,0*cm),(marker_size*cm,marker_size*cm), fill='black'))
+
+    #inner square
+    marker.add(svgwrite.shapes.Rect((corner_square*cm,corner_square*cm),(size_inner_square*cm,size_inner_square*cm), fill='black'))
+
+    #id square
+    marker.add(svgwrite.shapes.Rect((corner_square*cm,corner_square*cm),(size_id_square_x*cm,size_id_square_y*cm), fill='white'))
+
+    u = dwg.use(marker, insert=(0*cm,0*cm))
+
+    dwg.add(u)
+
+    dwg.save()
+
+
+    pixels_png = int(math.ceil((marker_size*90)/2.54))
+
+    #svg to png
+    img = cairo.ImageSurface(cairo.FORMAT_ARGB32, pixels_png,pixels_png)
+    ctx = cairo.Context(img)
+    handle = rsvg.Handle('aruco_marker.svg')
+    handle.render_cairo(ctx)
+    img.write_to_png("static/selected.png")
